@@ -21,7 +21,7 @@ class WatchlistController extends ChangeNotifier {
   final Map<String, StockSummary> _metas = <String, StockSummary>{};
   final Map<String, Quote> _quotes = <String, Quote>{};
 
-  WatchlistSort _sort = WatchlistSort.priceDesc;
+  WatchlistSort _sort = WatchlistSort.nameAsc;
   bool _isRefreshing = false;
   String? _errorMessage;
 
@@ -127,9 +127,22 @@ class WatchlistController extends ChangeNotifier {
   /// 처음 실행했을 때 빈 목록만 보이면 기능 확인이 어려워, 대표 종목 몇 개를
   /// 기본 관심종목으로 시드합니다. (로컬 저장은 선택 항목이라 앱을 껐다 켜면
   /// 다시 이 기본값으로 돌아갑니다 — README에 명시)
+  ///
+  /// 종목명 · 시장은 이미 알고 있는 값이라 미리 채워 둡니다. 실제로 검색에서
+  /// 등록한 종목도 검색 결과의 메타 정보를 바로 쓰기 때문에(＝ 네트워크 재요청
+  /// 없이) 이름 · 코드는 바로 보이고, 시세만 잠시 스켈레톤으로 표시됩니다.
   void _seedDefaults() {
-    const List<String> defaults = <String>['005930', '000660', '035420'];
-    _symbols.addAll(defaults);
+    const List<StockSummary> defaults = <StockSummary>[
+      StockSummary(symbol: '005930', name: '삼성전자', market: '코스피'),
+      StockSummary(symbol: '000660', name: 'SK하이닉스', market: '코스피'),
+      StockSummary(symbol: '035720', name: '카카오', market: '코스피'),
+      StockSummary(symbol: '247540', name: '에코프로비엠', market: '코스닥'),
+      StockSummary(symbol: '373220', name: 'LG에너지솔루션', market: '코스피'),
+    ];
+    for (final StockSummary summary in defaults) {
+      _symbols.add(summary.symbol);
+      _metas[summary.symbol] = summary;
+    }
   }
 
   Future<void> init() => refreshQuotes();

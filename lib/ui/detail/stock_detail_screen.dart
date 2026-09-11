@@ -220,7 +220,8 @@ class _PriceSection extends StatelessWidget {
                 Text(style.arrow, style: TextStyle(color: style.textColor, fontSize: 14)),
               if (style.arrow.isNotEmpty) SizedBox(width: dimens.space1),
               Text(
-                '${Formatters.signedComma(quote.change)} (${Formatters.signedPercent(quote.changeRate)})',
+                // 방향은 화살표로 이미 표시하고 있어 등락액은 절댓값만 보여줍니다.
+                '${Formatters.comma(quote.change.abs())} (${Formatters.signedPercent(quote.changeRate)})',
                 style: TextStyle(
                   color: style.textColor,
                   fontSize: 14,

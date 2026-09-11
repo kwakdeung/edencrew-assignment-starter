@@ -117,7 +117,7 @@ class _SearchField extends StatelessWidget {
         decoration: InputDecoration(
           isDense: true,
           border: InputBorder.none,
-          hintText: '종목명 또는 종목코드를 검색하세요',
+          hintText: '종목명 또는 종목코드',
           hintStyle: TextStyle(color: colors.textDisabled, fontSize: 15),
           contentPadding: EdgeInsets.symmetric(vertical: dimens.space3),
           prefixIcon: Icon(Icons.search_rounded, color: colors.textTertiary, size: dimens.iconMd),
@@ -157,7 +157,7 @@ class _SearchBody extends StatelessWidget {
         return const EmptyState(
           icon: Icons.search_rounded,
           title: '종목을 검색해 보세요',
-          description: '종목명 또는 종목코드로\n국내 주식을 찾을 수 있습니다.',
+          description: '종목명 또는 종목코드 6자리로\n검색하실 수 있습니다.',
         );
       case search.SearchStatus.loading:
         return const Center(child: CircularProgressIndicator());

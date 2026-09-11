@@ -7,7 +7,6 @@ import '../common/empty_state.dart';
 import '../detail/stock_detail_screen.dart';
 import 'widgets/sort_bottom_sheet.dart';
 import 'widgets/watchlist_row.dart';
-import 'widgets/watchlist_skeleton_row.dart';
 
 class WatchlistScreen extends StatefulWidget {
   const WatchlistScreen({super.key});
@@ -44,7 +43,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   ? const EmptyState(
                       icon: Icons.star_border_rounded,
                       title: '관심 종목이 없습니다',
-                      description: '검색 화면에서 관심 종목을 등록하면\n여기에서 모아 볼 수 있습니다.',
+                      description: '검색 탭에서 종목을 찾아\n별 아이콘을 눌러 추가해 주세요.',
                     )
                   : RefreshIndicator(
                       onRefresh: controller.refreshQuotes,
@@ -53,28 +52,24 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         itemCount: controller.sortedSymbols.length,
                         itemBuilder: (BuildContext context, int index) {
                           final String symbol = controller.sortedSymbols[index];
-                          final bool hasQuote = controller.quoteOf(symbol) != null;
-                          final Widget row = hasQuote
-                              ? WatchlistRow(
-                                  meta: controller.metaOf(symbol),
-                                  quote: controller.quoteOf(symbol),
-                                  onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute<void>(
-                                      builder: (_) => StockDetailScreen(
-                                        symbol: symbol,
-                                        initialMeta: controller.metaOf(symbol),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : const WatchlistSkeletonRow();
 
                           return Dismissible(
                             key: ValueKey<String>(symbol),
                             direction: DismissDirection.endToStart,
                             onDismissed: (_) => controller.removeFavorite(symbol),
                             background: _DeleteBackground(),
-                            child: row,
+                            child: WatchlistRow(
+                              meta: controller.metaOf(symbol),
+                              quote: controller.quoteOf(symbol),
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (_) => StockDetailScreen(
+                                    symbol: symbol,
+                                    initialMeta: controller.metaOf(symbol),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -133,15 +128,10 @@ class _Header extends StatelessWidget {
                 current: controller.sort,
                 onSelected: controller.changeSort,
               ),
-              child: Container(
+              child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: dimens.space3,
+                  horizontal: dimens.space2,
                   vertical: dimens.space2,
-                ),
-                decoration: BoxDecoration(
-                  color: colors.surfaceRaised,
-                  borderRadius: BorderRadius.circular(dimens.radiusMd),
-                  border: Border.all(color: colors.borderSubtle, width: dimens.borderHairline),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -154,9 +144,10 @@ class _Header extends StatelessWidget {
                         fontWeight: AppTypography.medium,
                       ),
                     ),
+                    SizedBox(width: dimens.space1),
                     Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      size: dimens.iconSm,
+                      Icons.arrow_downward_rounded,
+                      size: 14,
                       color: colors.textSecondary,
                     ),
                   ],
