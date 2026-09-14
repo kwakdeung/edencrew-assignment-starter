@@ -102,10 +102,11 @@ class _SearchField extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Container(
+      height: 40,
       decoration: BoxDecoration(
-        color: colors.surfaceRaised,
+        color: colors.surfaceSunken,
         borderRadius: BorderRadius.circular(dimens.radiusMd),
-        border: Border.all(color: colors.borderSubtle, width: dimens.borderHairline),
+        border: Border.all(color: colors.borderStrong, width: dimens.borderHairline),
       ),
       child: TextField(
         controller: controller,
@@ -119,8 +120,14 @@ class _SearchField extends StatelessWidget {
           isDense: true,
           border: InputBorder.none,
           hintText: '종목명 또는 종목코드',
-          hintStyle: TextStyle(color: colors.textDisabled, fontSize: 15),
-          contentPadding: EdgeInsets.symmetric(vertical: dimens.space3),
+          hintStyle: TextStyle(
+            color: colors.textTertiary,
+            fontSize: 15,
+            fontWeight: AppTypography.medium,
+            height: 20 / 15,
+            letterSpacing: -0.1,
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: dimens.space2),
           prefixIcon: Icon(Icons.search_rounded, color: colors.textTertiary, size: dimens.iconMd),
           suffixIcon: ValueListenableBuilder<TextEditingValue>(
             valueListenable: controller,

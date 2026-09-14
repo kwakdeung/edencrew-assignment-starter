@@ -57,7 +57,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                           return Dismissible(
                             key: ValueKey<String>(symbol),
                             direction: DismissDirection.endToStart,
-                            onDismissed: (_) => controller.removeFavorite(symbol),
+                            onDismissed: (_) =>
+                                controller.removeFavorite(symbol),
                             background: _DeleteBackground(),
                             child: WatchlistRow(
                               meta: controller.metaOf(symbol),
@@ -109,56 +110,68 @@ class _Header extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(dimens.space4, dimens.space3, dimens.space4, dimens.space2),
+      padding: EdgeInsets.fromLTRB(
+        dimens.space4,
+        dimens.space3,
+        dimens.space4,
+        dimens.space2,
+      ),
       child: Row(
         children: <Widget>[
           Text(
             '관심',
             style: TextStyle(
               color: colors.textPrimary,
-              fontSize: 20,
+              fontSize: 19,
               fontWeight: AppTypography.bold,
+              height: 22 / 19,
+              letterSpacing: -0.2,
             ),
           ),
           const Spacer(),
-          if (!controller.isEmpty)
-            InkWell(
-              borderRadius: BorderRadius.circular(dimens.radiusMd),
-              onTap: () => showSortBottomSheet(
-                context: context,
-                current: controller.sort,
-                onSelected: controller.changeSort,
+          InkWell(
+            borderRadius: BorderRadius.circular(dimens.radiusMd),
+            onTap: () => showSortBottomSheet(
+              context: context,
+              current: controller.sort,
+              onSelected: controller.changeSort,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: dimens.space2,
+                vertical: dimens.space2,
               ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: dimens.space2,
-                  vertical: dimens.space2,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      controller.sort.label,
-                      style: TextStyle(
-                        color: colors.textSecondary,
-                        fontSize: 13,
-                        fontWeight: AppTypography.medium,
-                      ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    controller.sort.label,
+                    style: TextStyle(
+                      color: colors.textSecondary,
+                      fontSize: 13,
+                      fontWeight: AppTypography.bold,
+                      height: 18 / 13,
                     ),
-                    SizedBox(width: dimens.space1),
-                    SvgPicture.asset(
-                      'assets/images/ic_align.svg',
-                      width: 14,
-                      height: 14,
-                      colorFilter: ColorFilter.mode(colors.textSecondary, BlendMode.srcIn),
+                  ),
+                  SizedBox(width: dimens.space1),
+                  SvgPicture.asset(
+                    'assets/images/ic_align.svg',
+                    width: 14,
+                    height: 14,
+                    colorFilter: ColorFilter.mode(
+                      colors.textSecondary,
+                      BlendMode.srcIn,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          ),
           SizedBox(width: dimens.space2),
           IconButton(
-            onPressed: controller.isRefreshing ? null : controller.refreshQuotes,
+            onPressed: controller.isRefreshing
+                ? null
+                : controller.refreshQuotes,
             icon: controller.isRefreshing
                 ? SizedBox(
                     width: dimens.iconMd,
@@ -172,7 +185,10 @@ class _Header extends StatelessWidget {
                     'assets/images/ic_refresh.svg',
                     width: dimens.iconMd,
                     height: dimens.iconMd,
-                    colorFilter: ColorFilter.mode(colors.textSecondary, BlendMode.srcIn),
+                    colorFilter: ColorFilter.mode(
+                      colors.textSecondary,
+                      BlendMode.srcIn,
+                    ),
                   ),
           ),
         ],
@@ -193,8 +209,14 @@ class _ErrorBanner extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space1),
-      padding: EdgeInsets.symmetric(horizontal: dimens.space3, vertical: dimens.space2),
+      margin: EdgeInsets.symmetric(
+        horizontal: dimens.space4,
+        vertical: dimens.space1,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: dimens.space3,
+        vertical: dimens.space2,
+      ),
       decoration: BoxDecoration(
         color: colors.priceDownBg,
         borderRadius: BorderRadius.circular(dimens.radiusMd),

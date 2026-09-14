@@ -51,7 +51,10 @@ class _BottomNavBar extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.surfaceBase,
           border: Border(
-            top: BorderSide(color: colors.borderSubtle, width: dimens.borderHairline),
+            top: BorderSide(
+              color: colors.borderSubtle,
+              width: dimens.borderHairline,
+            ),
           ),
         ),
         child: Row(
@@ -96,7 +99,9 @@ class _NavItem extends StatelessWidget {
     final AppColors colors = context.colors;
     final AppDimens dimens = context.dimens;
     final Color color = selected ? colors.navActive : colors.navInactive;
-    final String asset = selected ? (selectedIconAsset ?? iconAsset) : iconAsset;
+    final String asset = selected
+        ? (selectedIconAsset ?? iconAsset)
+        : iconAsset;
 
     return Expanded(
       child: InkWell(
@@ -106,8 +111,8 @@ class _NavItem extends StatelessWidget {
           children: <Widget>[
             SvgPicture.asset(
               asset,
-              width: dimens.iconMd,
-              height: dimens.iconMd,
+              width: 22,
+              height: 22,
               colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
             ),
             SizedBox(height: dimens.space1),
@@ -116,7 +121,8 @@ class _NavItem extends StatelessWidget {
               style: TextStyle(
                 color: color,
                 fontSize: 11,
-                fontWeight: selected ? AppTypography.medium : AppTypography.regular,
+                fontWeight: AppTypography.regular,
+                height: 14 / 11,
               ),
             ),
           ],

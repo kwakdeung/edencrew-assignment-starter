@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/formatters.dart';
 import '../../../domain/daily_price.dart';
 import '../../../domain/quote.dart';
 import '../../../theme/theme.dart';
@@ -47,15 +46,10 @@ class _CandleChartPainter extends CustomPainter {
   final List<DailyPrice> prices;
   final AppColors colors;
 
-  static const double _volumeRatio = 0.22;
-  static const double _labelWidth = 52;
-
   @override
   void paint(Canvas canvas, Size size) {
-    final double priceAreaHeight = size.height * (1 - _volumeRatio);
-    final double volumeAreaTop = priceAreaHeight + 8;
-    final double volumeAreaHeight = size.height - volumeAreaTop;
-    final double chartWidth = size.width - _labelWidth;
+    final double priceAreaHeight = size.height;
+    final double chartWidth = size.width;
 
     final double maxHigh = prices.map((DailyPrice p) => p.highPrice).reduce(
       (int a, int b) => a > b ? a : b,
@@ -63,10 +57,6 @@ class _CandleChartPainter extends CustomPainter {
     final double minLow = prices.map((DailyPrice p) => p.lowPrice).reduce(
       (int a, int b) => a < b ? a : b,
     ).toDouble();
-    final double maxVolume = prices
-        .map((DailyPrice p) => p.volume)
-        .reduce((int a, int b) => a > b ? a : b)
-        .toDouble();
 
     final double pricePadding = (maxHigh - minLow) * 0.08 + 1;
     final double topPrice = maxHigh + pricePadding;
@@ -76,26 +66,6 @@ class _CandleChartPainter extends CustomPainter {
     double yForPrice(double price) {
       return priceAreaHeight * (1 - (price - bottomPrice) / priceRange);
     }
-
-    // 축 라벨 (선택 항목): 최고 / 최저가만 간단히 표시합니다.
-    final TextStyle axisStyle = TextStyle(color: colors.chartAxisLabel, fontSize: 10);
-    _drawText(canvas, Formatters.comma(maxHigh), Offset(chartWidth + 6, 0), axisStyle);
-    _drawText(
-      canvas,
-      Formatters.comma(minLow),
-      Offset(chartWidth + 6, priceAreaHeight - 12),
-      axisStyle,
-    );
-
-    final Paint baselinePaint = Paint()
-      ..color = colors.chartBaseline
-      ..strokeWidth = 1;
-    canvas.drawLine(Offset(0, 0), Offset(chartWidth, 0), baselinePaint);
-    canvas.drawLine(
-      Offset(0, priceAreaHeight),
-      Offset(chartWidth, priceAreaHeight),
-      baselinePaint,
-    );
 
     final double slotWidth = chartWidth / prices.length;
     final double candleWidth = (slotWidth * 0.6).clamp(1.5, 16);
@@ -130,29 +100,7 @@ class _CandleChartPainter extends CustomPainter {
         (bottom - top).abs() < 1.5 ? top + 1.5 : bottom,
       );
       canvas.drawRect(bodyRect, Paint()..color = color);
-
-      // 거래량 바 (선택 항목)
-      final double volumeHeight = maxVolume == 0
-          ? 0
-          : (price.volume / maxVolume) * volumeAreaHeight;
-      canvas.drawRect(
-        Rect.fromLTRB(
-          centerX - candleWidth / 2,
-          volumeAreaTop + (volumeAreaHeight - volumeHeight),
-          centerX + candleWidth / 2,
-          volumeAreaTop + volumeAreaHeight,
-        ),
-        Paint()..color = colors.chartVolumeBar,
-      );
     }
-  }
-
-  void _drawText(Canvas canvas, String text, Offset offset, TextStyle style) {
-    final TextPainter painter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    painter.paint(canvas, offset);
   }
 
   @override

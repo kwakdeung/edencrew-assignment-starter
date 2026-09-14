@@ -33,8 +33,8 @@ class EmptyState extends StatelessWidget {
             if (iconAsset != null)
               SvgPicture.asset(
                 iconAsset!,
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
                 colorFilter: ColorFilter.mode(colors.textDisabled, BlendMode.srcIn),
               )
             else
@@ -43,9 +43,11 @@ class EmptyState extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: colors.textPrimary,
-                fontSize: 16,
-                fontWeight: AppTypography.medium,
+                color: colors.textSecondary,
+                fontSize: 19,
+                fontWeight: AppTypography.bold,
+                height: 22 / 19,
+                letterSpacing: -0.2,
               ),
             ),
             SizedBox(height: dimens.space2),
@@ -54,9 +56,9 @@ class EmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: colors.textTertiary,
-                fontSize: 13,
+                fontSize: 11,
                 fontWeight: AppTypography.regular,
-                height: 1.5,
+                height: 14 / 11,
               ),
             ),
           ],

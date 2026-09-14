@@ -28,7 +28,7 @@ class DailyPriceTable extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: dimens.space2),
           child: Row(
             children: <Widget>[
-              _HeaderCell('날짜'),
+              _HeaderCell('날짜', align: TextAlign.left),
               _HeaderCell('종가'),
               _HeaderCell('등락'),
               _HeaderCell('거래량'),
@@ -47,9 +47,10 @@ class DailyPriceTable extends StatelessWidget {
 }
 
 class _HeaderCell extends StatelessWidget {
-  const _HeaderCell(this.label);
+  const _HeaderCell(this.label, {this.align = TextAlign.right});
 
   final String label;
+  final TextAlign align;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class _HeaderCell extends StatelessWidget {
     return Expanded(
       child: Text(
         label,
-        textAlign: TextAlign.right,
+        textAlign: align,
         style: TextStyle(
           color: colors.textTertiary,
           fontSize: 12,
@@ -102,7 +103,7 @@ class _DailyRow extends StatelessWidget {
           Expanded(
             child: Text(
               Formatters.monthDay(price.date),
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.left,
               style: TextStyle(color: colors.textSecondary, fontSize: 13),
             ),
           ),

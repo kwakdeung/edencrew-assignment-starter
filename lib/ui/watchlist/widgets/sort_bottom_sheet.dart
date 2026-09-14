@@ -50,14 +50,14 @@ Future<void> showSortBottomSheet({
                   title: Text(
                     sort.label,
                     style: TextStyle(
-                      color: colors.textPrimary,
+                      color: sort == current ? colors.textPrimary : colors.textSecondary,
                       fontSize: 15,
                       fontWeight:
                           sort == current ? AppTypography.medium : AppTypography.regular,
                     ),
                   ),
                   trailing: sort == current
-                      ? Icon(Icons.check, color: colors.accentDefault, size: dimens.iconMd)
+                      ? Icon(Icons.check, color: colors.textPrimary, size: dimens.iconMd)
                       : null,
                 ),
             ],
