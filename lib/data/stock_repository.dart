@@ -13,7 +13,7 @@ import 'naver_api_client.dart';
 ///   모아 한 번에 요청하도록 [fetchQuotes]에 리스트를 넘깁니다.
 class StockRepository {
   StockRepository({NaverApiClient? client})
-      : _client = client ?? NaverApiClient();
+    : _client = client ?? NaverApiClient();
 
   final NaverApiClient _client;
 
@@ -30,7 +30,8 @@ class StockRepository {
   Future<List<StockSummary>> search(String query) async {
     if (query.trim().isEmpty) return const <StockSummary>[];
     final Map<String, dynamic> json = await _client.fetchAutocomplete(query);
-    final List<dynamic> items = (json['items'] as List<dynamic>?) ?? <dynamic>[];
+    final List<dynamic> items =
+        (json['items'] as List<dynamic>?) ?? <dynamic>[];
     final RegExp sixDigits = RegExp(r'^\d{6}$');
 
     final List<StockSummary> results = <StockSummary>[];
@@ -73,11 +74,12 @@ class StockRepository {
     final Map<String, dynamic> json = await _client.fetchRealtime(symbols);
     final Map<String, dynamic> result =
         (json['result'] as Map<String, dynamic>?) ?? <String, dynamic>{};
-    final List<dynamic> areas = (result['areas'] as List<dynamic>?) ?? <dynamic>[];
+    final List<dynamic> areas =
+        (result['areas'] as List<dynamic>?) ?? <dynamic>[];
     if (areas.isEmpty) return <String, Quote>{};
     final List<dynamic> datas =
         (areas.first as Map<String, dynamic>)['datas'] as List<dynamic>? ??
-            <dynamic>[];
+        <dynamic>[];
 
     final Map<String, Quote> quotes = <String, Quote>{};
     for (final dynamic item in datas) {
@@ -110,8 +112,10 @@ class StockRepository {
         ? period.pagesNeeded
         : period.pagesNeeded.clamp(0, lastPage);
 
-    final Map<int, List<DailyPrice>> cache =
-        _dailyPriceCache.putIfAbsent(symbol, () => <int, List<DailyPrice>>{});
+    final Map<int, List<DailyPrice>> cache = _dailyPriceCache.putIfAbsent(
+      symbol,
+      () => <int, List<DailyPrice>>{},
+    );
 
     for (int page = 1; page <= pagesToFetch; page++) {
       if (cache.containsKey(page)) continue;
