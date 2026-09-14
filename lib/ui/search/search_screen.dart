@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/stock_summary.dart';
@@ -127,10 +128,11 @@ class _SearchField extends StatelessWidget {
               if (value.text.isEmpty) return const SizedBox.shrink();
               return IconButton(
                 onPressed: onClear,
-                icon: Icon(
-                  Icons.cancel_rounded,
-                  color: colors.textTertiary,
-                  size: dimens.iconSm,
+                icon: SvgPicture.asset(
+                  'assets/images/ic_x.svg',
+                  width: dimens.iconSm,
+                  height: dimens.iconSm,
+                  colorFilter: ColorFilter.mode(colors.textTertiary, BlendMode.srcIn),
                 ),
               );
             },
@@ -155,7 +157,7 @@ class _SearchBody extends StatelessWidget {
     switch (searchController.status) {
       case search.SearchStatus.initial:
         return const EmptyState(
-          icon: Icons.search_rounded,
+          iconAsset: 'assets/images/ic_search_request.svg',
           title: '종목을 검색해 보세요',
           description: '종목명 또는 종목코드 6자리로\n검색하실 수 있습니다.',
         );
@@ -164,7 +166,7 @@ class _SearchBody extends StatelessWidget {
       case search.SearchStatus.loaded:
         if (searchController.results.isEmpty) {
           return EmptyState(
-            icon: Icons.search_off_rounded,
+            iconAsset: 'assets/images/ic_search_empty.svg',
             title: '검색 결과가 없습니다',
             description: "'${searchController.query}'와 일치하는 검색 결과를 찾지 못했습니다.",
           );

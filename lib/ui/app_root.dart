@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme/theme.dart';
 import 'search/search_screen.dart';
@@ -56,13 +57,14 @@ class _BottomNavBar extends StatelessWidget {
         child: Row(
           children: <Widget>[
             _NavItem(
-              icon: Icons.star_rounded,
+              iconAsset: 'assets/images/ic_star.svg',
+              selectedIconAsset: 'assets/images/ic_star_fill.svg',
               label: '관심',
               selected: index == 0,
               onTap: () => onChanged(0),
             ),
             _NavItem(
-              icon: Icons.search_rounded,
+              iconAsset: 'assets/images/ic_search.svg',
               label: '검색',
               selected: index == 1,
               onTap: () => onChanged(1),
@@ -76,13 +78,15 @@ class _BottomNavBar extends StatelessWidget {
 
 class _NavItem extends StatelessWidget {
   const _NavItem({
-    required this.icon,
+    required this.iconAsset,
+    this.selectedIconAsset,
     required this.label,
     required this.selected,
     required this.onTap,
   });
 
-  final IconData icon;
+  final String iconAsset;
+  final String? selectedIconAsset;
   final String label;
   final bool selected;
   final VoidCallback onTap;
@@ -92,6 +96,7 @@ class _NavItem extends StatelessWidget {
     final AppColors colors = context.colors;
     final AppDimens dimens = context.dimens;
     final Color color = selected ? colors.navActive : colors.navInactive;
+    final String asset = selected ? (selectedIconAsset ?? iconAsset) : iconAsset;
 
     return Expanded(
       child: InkWell(
@@ -99,7 +104,12 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(icon, size: dimens.iconMd, color: color),
+            SvgPicture.asset(
+              asset,
+              width: dimens.iconMd,
+              height: dimens.iconMd,
+              colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+            ),
             SizedBox(height: dimens.space1),
             Text(
               label,

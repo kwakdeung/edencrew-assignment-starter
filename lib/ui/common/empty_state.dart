@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../theme/theme.dart';
 
@@ -7,12 +8,14 @@ import '../../theme/theme.dart';
 class EmptyState extends StatelessWidget {
   const EmptyState({
     super.key,
-    required this.icon,
+    this.icon,
+    this.iconAsset,
     required this.title,
     required this.description,
-  });
+  }) : assert(icon != null || iconAsset != null);
 
-  final IconData icon;
+  final IconData? icon;
+  final String? iconAsset;
   final String title;
   final String description;
 
@@ -27,7 +30,15 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Icon(icon, size: 48, color: colors.textDisabled),
+            if (iconAsset != null)
+              SvgPicture.asset(
+                iconAsset!,
+                width: 48,
+                height: 48,
+                colorFilter: ColorFilter.mode(colors.textDisabled, BlendMode.srcIn),
+              )
+            else
+              Icon(icon, size: 48, color: colors.textDisabled),
             SizedBox(height: dimens.space4),
             Text(
               title,

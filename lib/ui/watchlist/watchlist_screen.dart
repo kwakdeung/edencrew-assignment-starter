@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../state/watchlist_controller.dart';
@@ -41,7 +42,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
             Expanded(
               child: controller.isEmpty
                   ? const EmptyState(
-                      icon: Icons.star_border_rounded,
+                      iconAsset: 'assets/images/ic_star_outlined.svg',
                       title: '관심 종목이 없습니다',
                       description: '검색 탭에서 종목을 찾아\n별 아이콘을 눌러 추가해 주세요.',
                     )
@@ -145,10 +146,11 @@ class _Header extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: dimens.space1),
-                    Icon(
-                      Icons.arrow_downward_rounded,
-                      size: 14,
-                      color: colors.textSecondary,
+                    SvgPicture.asset(
+                      'assets/images/ic_align.svg',
+                      width: 14,
+                      height: 14,
+                      colorFilter: ColorFilter.mode(colors.textSecondary, BlendMode.srcIn),
                     ),
                   ],
                 ),
@@ -166,7 +168,12 @@ class _Header extends StatelessWidget {
                       color: colors.textSecondary,
                     ),
                   )
-                : Icon(Icons.refresh_rounded, color: colors.textSecondary),
+                : SvgPicture.asset(
+                    'assets/images/ic_refresh.svg',
+                    width: dimens.iconMd,
+                    height: dimens.iconMd,
+                    colorFilter: ColorFilter.mode(colors.textSecondary, BlendMode.srcIn),
+                  ),
           ),
         ],
       ),
