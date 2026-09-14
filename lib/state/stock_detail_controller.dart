@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-import '../data/stock_repository.dart';
-import '../domain/chart_period.dart';
-import '../domain/daily_price.dart';
-import '../domain/quote.dart';
-import '../domain/stock_summary.dart';
+import 'package:edencrew_assignment_starter/data/stock_repository.dart';
+import 'package:edencrew_assignment_starter/domain/chart_period.dart';
+import 'package:edencrew_assignment_starter/domain/daily_price.dart';
+import 'package:edencrew_assignment_starter/domain/quote.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
 
 enum DetailLoadStatus { loading, loaded, error }
 

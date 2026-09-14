@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/chart_period.dart';
-import '../../../theme/theme.dart';
+import 'package:edencrew_assignment_starter/domain/chart_period.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
 
 class PeriodTabs extends StatelessWidget {
   const PeriodTabs({super.key, required this.selected, required this.onChanged});

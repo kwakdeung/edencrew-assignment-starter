@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/stock_summary.dart';
-import '../../../theme/theme.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
+import 'package:edencrew_assignment_starter/ui/search/widgets/highlighted_name.dart';
 
 class SearchResultRow extends StatelessWidget {
   const SearchResultRow({
@@ -41,7 +42,7 @@ class SearchResultRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  _HighlightedName(name: summary.name, query: query),
+                  HighlightedName(name: summary.name, query: query),
                   SizedBox(height: dimens.space1),
                   Text(
                     '${summary.symbol} · ${summary.market}',
@@ -64,48 +65,6 @@ class SearchResultRow extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _HighlightedName extends StatelessWidget {
-  const _HighlightedName({required this.name, required this.query});
-
-  final String name;
-  final String query;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppColors colors = context.colors;
-    final TextStyle base = TextStyle(
-      color: colors.textPrimary,
-      fontSize: 15,
-      fontWeight: AppTypography.medium,
-    );
-
-    if (query.trim().isEmpty) {
-      return Text(name, style: base, maxLines: 1, overflow: TextOverflow.ellipsis);
-    }
-
-    final int index = name.toLowerCase().indexOf(query.toLowerCase());
-    if (index < 0) {
-      return Text(name, style: base, maxLines: 1, overflow: TextOverflow.ellipsis);
-    }
-
-    return RichText(
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      text: TextSpan(
-        style: base,
-        children: <TextSpan>[
-          TextSpan(text: name.substring(0, index)),
-          TextSpan(
-            text: name.substring(index, index + query.length),
-            style: base.copyWith(color: colors.searchHighlight),
-          ),
-          TextSpan(text: name.substring(index + query.length)),
-        ],
       ),
     );
   }

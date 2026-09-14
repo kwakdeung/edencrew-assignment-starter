@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/formatters.dart';
-import '../../../domain/quote.dart';
-import '../../../domain/stock_summary.dart';
-import '../../../theme/theme.dart';
-import '../../common/price_style.dart';
+import 'package:edencrew_assignment_starter/core/formatters.dart';
+import 'package:edencrew_assignment_starter/domain/quote.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
+import 'package:edencrew_assignment_starter/ui/common/price_style.dart';
 
 /// 관심 화면의 종목 한 행입니다.
 ///

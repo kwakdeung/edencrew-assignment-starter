@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
-import '../data/stock_repository.dart';
-import '../domain/quote.dart';
-import '../domain/stock_summary.dart';
-import '../domain/watchlist_sort.dart';
+import 'package:edencrew_assignment_starter/data/stock_repository.dart';
+import 'package:edencrew_assignment_starter/domain/quote.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
+import 'package:edencrew_assignment_starter/domain/watchlist_sort.dart';
 
 /// 관심종목 상태의 단일 출처입니다.
 ///

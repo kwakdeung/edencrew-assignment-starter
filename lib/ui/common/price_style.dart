@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/quote.dart';
-import '../../theme/theme.dart';
+import 'package:edencrew_assignment_starter/domain/quote.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
 
 /// 등락 방향에 따른 텍스트 / 배경 색상, 화살표를 한 곳에서 계산합니다.
 /// 상승은 빨강(`priceUpText`), 하락은 파랑(`priceDownText`) — 국내 시장 관행입니다.

@@ -1,4 +1,4 @@
-import '../domain/daily_price.dart';
+import 'package:edencrew_assignment_starter/domain/daily_price.dart';
 
 /// `finance.naver.com/item/sise_day.naver`가 반환하는 HTML 한 페이지를 파싱합니다.
 ///

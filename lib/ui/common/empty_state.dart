@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../theme/theme.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
 
 /// 관심 · 검색 화면이 공통으로 쓰는 빈 상태 레이아웃입니다.
 /// (아이콘 + 제목 + 안내 문구, 화면 중앙 정렬)

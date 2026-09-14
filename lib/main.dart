@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import 'data/stock_repository.dart';
-import 'state/watchlist_controller.dart';
-import 'theme/theme.dart';
-import 'ui/app_root.dart';
+import 'package:edencrew_assignment_starter/data/stock_repository.dart';
+import 'package:edencrew_assignment_starter/state/watchlist_controller.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
+import 'package:edencrew_assignment_starter/ui/app_root.dart';
 
 void main() {
   runApp(const EdencrewAssignmentApp());

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/stock_summary.dart';
-import '../../state/search_controller.dart' as search;
-import '../../state/watchlist_controller.dart';
-import '../../theme/theme.dart';
-import '../common/app_toast.dart';
-import '../common/empty_state.dart';
-import '../detail/stock_detail_screen.dart';
-import 'widgets/search_result_row.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
+import 'package:edencrew_assignment_starter/state/search_controller.dart' as search;
+import 'package:edencrew_assignment_starter/state/watchlist_controller.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
+import 'package:edencrew_assignment_starter/ui/common/app_toast.dart';
+import 'package:edencrew_assignment_starter/ui/search/widgets/search_body.dart';
+import 'package:edencrew_assignment_starter/ui/search/widgets/search_field.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -67,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   dimens.space4,
                   dimens.space2,
                 ),
-                child: _SearchField(
+                child: SearchField(
                   controller: _textController,
                   onChanged: _searchController.onQueryChanged,
                   onClear: () {
@@ -76,126 +74,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   },
                 ),
               ),
-              Expanded(child: _SearchBody(onToggleFavorite: _toggleFavorite)),
+              Expanded(child: SearchBody(onToggleFavorite: _toggleFavorite)),
             ],
           ),
         ),
       ),
     );
-  }
-}
-
-class _SearchField extends StatelessWidget {
-  const _SearchField({
-    required this.controller,
-    required this.onChanged,
-    required this.onClear,
-  });
-
-  final TextEditingController controller;
-  final ValueChanged<String> onChanged;
-  final VoidCallback onClear;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppColors colors = context.colors;
-    final AppDimens dimens = context.dimens;
-
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        color: colors.surfaceSunken,
-        borderRadius: BorderRadius.circular(dimens.radiusMd),
-        border: Border.all(color: colors.borderStrong, width: dimens.borderHairline),
-      ),
-      child: TextField(
-        controller: controller,
-        onChanged: onChanged,
-        style: TextStyle(
-          color: colors.textPrimary,
-          fontSize: 15,
-          fontWeight: AppTypography.regular,
-        ),
-        decoration: InputDecoration(
-          isDense: true,
-          border: InputBorder.none,
-          hintText: '종목명 또는 종목코드',
-          hintStyle: TextStyle(
-            color: colors.textTertiary,
-            fontSize: 15,
-            fontWeight: AppTypography.medium,
-            height: 20 / 15,
-            letterSpacing: -0.1,
-          ),
-          contentPadding: EdgeInsets.symmetric(vertical: dimens.space2),
-          prefixIcon: Icon(Icons.search_rounded, color: colors.textTertiary, size: dimens.iconMd),
-          suffixIcon: ValueListenableBuilder<TextEditingValue>(
-            valueListenable: controller,
-            builder: (BuildContext context, TextEditingValue value, _) {
-              if (value.text.isEmpty) return const SizedBox.shrink();
-              return IconButton(
-                onPressed: onClear,
-                icon: SvgPicture.asset(
-                  'assets/images/ic_x.svg',
-                  width: dimens.iconSm,
-                  height: dimens.iconSm,
-                  colorFilter: ColorFilter.mode(colors.textTertiary, BlendMode.srcIn),
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SearchBody extends StatelessWidget {
-  const _SearchBody({required this.onToggleFavorite});
-
-  final ValueChanged<StockSummary> onToggleFavorite;
-
-  @override
-  Widget build(BuildContext context) {
-    final search.StockSearchController searchController =
-        context.watch<search.StockSearchController>();
-    final WatchlistController watchlist = context.watch<WatchlistController>();
-
-    switch (searchController.status) {
-      case search.SearchStatus.initial:
-        return const EmptyState(
-          iconAsset: 'assets/images/ic_search_request.svg',
-          title: '종목을 검색해 보세요',
-          description: '종목명 또는 종목코드 6자리로\n검색하실 수 있습니다.',
-        );
-      case search.SearchStatus.loading:
-        return const Center(child: CircularProgressIndicator());
-      case search.SearchStatus.loaded:
-        if (searchController.results.isEmpty) {
-          return EmptyState(
-            iconAsset: 'assets/images/ic_search_empty.svg',
-            title: '검색 결과가 없습니다',
-            description: "'${searchController.query}'와 일치하는 검색 결과를 찾지 못했습니다.",
-          );
-        }
-        return ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: searchController.results.length,
-          itemBuilder: (BuildContext context, int index) {
-            final StockSummary summary = searchController.results[index];
-            return SearchResultRow(
-              summary: summary,
-              query: searchController.query,
-              isFavorite: watchlist.isFavorite(summary.symbol),
-              onFavoriteTap: () => onToggleFavorite(summary),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => StockDetailScreen(symbol: summary.symbol, initialMeta: summary),
-                ),
-              ),
-            );
-          },
-        );
-    }
   }
 }

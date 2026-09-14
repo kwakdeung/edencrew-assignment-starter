@@ -1,9 +1,9 @@
-import '../domain/chart_period.dart';
-import '../domain/daily_price.dart';
-import '../domain/quote.dart';
-import '../domain/stock_summary.dart';
-import 'daily_price_html_parser.dart';
-import 'naver_api_client.dart';
+import 'package:edencrew_assignment_starter/data/daily_price_html_parser.dart';
+import 'package:edencrew_assignment_starter/data/naver_api_client.dart';
+import 'package:edencrew_assignment_starter/domain/chart_period.dart';
+import 'package:edencrew_assignment_starter/domain/daily_price.dart';
+import 'package:edencrew_assignment_starter/domain/quote.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
 
 /// Naver 4개 endpoint를 묶어 도메인 모델로 정규화하는 저장소입니다.
 ///

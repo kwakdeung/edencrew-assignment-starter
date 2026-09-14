@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/formatters.dart';
-import '../../../domain/quote.dart';
-import '../../../theme/theme.dart';
+import 'package:edencrew_assignment_starter/core/formatters.dart';
+import 'package:edencrew_assignment_starter/domain/quote.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
+import 'package:edencrew_assignment_starter/ui/detail/widgets/stat_box.dart';
 
 /// 시가 · 고가 · 저가 · 거래량 · 시가총액 요약 카드.
 ///
@@ -27,23 +28,23 @@ class SummaryCard extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                _StatBox(label: '시가', value: Formatters.comma(quote.open), width: thirdWidth),
+                StatBox(label: '시가', value: Formatters.comma(quote.open), width: thirdWidth),
                 SizedBox(width: dimens.space3),
-                _StatBox(label: '고가', value: Formatters.comma(quote.high), width: thirdWidth),
+                StatBox(label: '고가', value: Formatters.comma(quote.high), width: thirdWidth),
                 SizedBox(width: dimens.space3),
-                _StatBox(label: '저가', value: Formatters.comma(quote.low), width: thirdWidth),
+                StatBox(label: '저가', value: Formatters.comma(quote.low), width: thirdWidth),
               ],
             ),
             SizedBox(height: dimens.space3),
             Row(
               children: <Widget>[
-                _StatBox(
+                StatBox(
                   label: '거래량',
                   value: Formatters.compactVolume(quote.accumulatedVolume),
                   width: halfWidth,
                 ),
                 SizedBox(width: dimens.space3),
-                _StatBox(
+                StatBox(
                   label: '시가총액',
                   value: Formatters.compactWon(quote.marketCap),
                   width: halfWidth,
@@ -53,51 +54,6 @@ class SummaryCard extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-}
-
-class _StatBox extends StatelessWidget {
-  const _StatBox({required this.label, required this.value, required this.width});
-
-  final String label;
-  final String value;
-  final double width;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppColors colors = context.colors;
-    final AppDimens dimens = context.dimens;
-
-    return Container(
-      width: width,
-      padding: EdgeInsets.all(dimens.space3),
-      decoration: BoxDecoration(
-        color: colors.surfaceRaised,
-        borderRadius: BorderRadius.circular(dimens.radiusMd),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            label,
-            style: TextStyle(
-              color: colors.textTertiary,
-              fontSize: 12,
-              fontWeight: AppTypography.regular,
-            ),
-          ),
-          SizedBox(height: dimens.space1),
-          Text(
-            value,
-            style: TextStyle(
-              color: colors.textPrimary,
-              fontSize: 14,
-              fontWeight: AppTypography.medium,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

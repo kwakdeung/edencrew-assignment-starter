@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-import '../data/stock_repository.dart';
-import '../domain/stock_summary.dart';
+import 'package:edencrew_assignment_starter/data/stock_repository.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
 
 enum SearchStatus { initial, loading, loaded }
 

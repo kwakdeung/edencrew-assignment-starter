@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/watchlist_sort.dart';
-import '../../../theme/theme.dart';
+import 'package:edencrew_assignment_starter/domain/watchlist_sort.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
 
 Future<void> showSortBottomSheet({
   required BuildContext context,

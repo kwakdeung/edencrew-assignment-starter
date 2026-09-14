@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/formatters.dart';
-import '../../domain/quote.dart';
-import '../../domain/stock_summary.dart';
-import '../../state/stock_detail_controller.dart';
-import '../../state/watchlist_controller.dart';
-import '../../theme/theme.dart';
-import '../common/app_toast.dart';
-import '../common/price_style.dart';
-import 'widgets/candle_chart.dart';
-import 'widgets/daily_price_table.dart';
-import 'widgets/period_tabs.dart';
-import 'widgets/summary_card.dart';
+import 'package:edencrew_assignment_starter/domain/quote.dart';
+import 'package:edencrew_assignment_starter/domain/stock_summary.dart';
+import 'package:edencrew_assignment_starter/state/stock_detail_controller.dart';
+import 'package:edencrew_assignment_starter/theme/theme.dart';
+import 'package:edencrew_assignment_starter/ui/detail/widgets/candle_chart.dart';
+import 'package:edencrew_assignment_starter/ui/detail/widgets/daily_price_table.dart';
+import 'package:edencrew_assignment_starter/ui/detail/widgets/period_tabs.dart';
+import 'package:edencrew_assignment_starter/ui/detail/widgets/price_section.dart';
+import 'package:edencrew_assignment_starter/ui/detail/widgets/stock_detail_header.dart';
+import 'package:edencrew_assignment_starter/ui/detail/widgets/summary_card.dart';
 
 class StockDetailScreen extends StatefulWidget {
   const StockDetailScreen({super.key, required this.symbol, this.initialMeta});
@@ -57,7 +55,7 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
     if (controller.status == DetailLoadStatus.error) {
       return Column(
         children: <Widget>[
-          _Header(symbol: widget.symbol, meta: controller.meta),
+          StockDetailHeader(symbol: widget.symbol, meta: controller.meta),
           Expanded(
             child: Center(
               child: Column(
@@ -80,7 +78,7 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
     if (controller.status == DetailLoadStatus.loading && controller.quote == null) {
       return Column(
         children: <Widget>[
-          _Header(symbol: widget.symbol, meta: controller.meta),
+          StockDetailHeader(symbol: widget.symbol, meta: controller.meta),
           const Expanded(child: Center(child: CircularProgressIndicator())),
         ],
       );
@@ -91,8 +89,8 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
     return ListView(
       padding: EdgeInsets.only(bottom: dimens.space6),
       children: <Widget>[
-        _Header(symbol: widget.symbol, meta: controller.meta),
-        if (quote != null) _PriceSection(quote: quote),
+        StockDetailHeader(symbol: widget.symbol, meta: controller.meta),
+        if (quote != null) PriceSection(quote: quote),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: dimens.space4),
           child: PeriodTabs(selected: controller.period, onChanged: controller.changePeriod),
@@ -125,121 +123,6 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
           child: DailyPriceTable(prices: controller.dailyPrices),
         ),
       ],
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({required this.symbol, required this.meta});
-
-  final String symbol;
-  final StockSummary? meta;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppColors colors = context.colors;
-    final AppDimens dimens = context.dimens;
-    final WatchlistController watchlist = context.watch<WatchlistController>();
-    final bool isFavorite = watchlist.isFavorite(symbol);
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(dimens.space2, dimens.space2, dimens.space3, dimens.space2),
-      child: Row(
-        children: <Widget>[
-          IconButton(
-            onPressed: () => Navigator.of(context).maybePop(),
-            icon: Icon(Icons.arrow_back_rounded, color: colors.textPrimary),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  meta?.name ?? symbol,
-                  style: TextStyle(
-                    color: colors.textPrimary,
-                    fontSize: 16,
-                    fontWeight: AppTypography.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (meta != null)
-                  Text(
-                    '${meta!.symbol} · ${meta!.market}',
-                    style: TextStyle(color: colors.textTertiary, fontSize: 12),
-                  ),
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: () async {
-              if (meta == null) return;
-              final bool wasFavorite = isFavorite;
-              await watchlist.toggleFavorite(meta!);
-              if (!context.mounted) return;
-              AppToast.show(
-                context,
-                isFavorite: !wasFavorite,
-                message: wasFavorite ? '관심이 해제되었습니다' : '관심이 등록되었습니다',
-              );
-            },
-            icon: Icon(
-              isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
-              color: isFavorite ? colors.favoriteActive : colors.favoriteInactive,
-              size: dimens.iconMd,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PriceSection extends StatelessWidget {
-  const _PriceSection({required this.quote});
-
-  final Quote quote;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppColors colors = context.colors;
-    final AppDimens dimens = context.dimens;
-    final PriceStyle style = PriceStyle.of(context, quote.direction);
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(dimens.space4, dimens.space2, dimens.space4, dimens.space4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            Formatters.comma(quote.current),
-            style: TextStyle(
-              color: colors.textPrimary,
-              fontSize: 32,
-              fontWeight: AppTypography.bold,
-            ),
-          ),
-          SizedBox(height: dimens.space1),
-          Row(
-            children: <Widget>[
-              if (style.arrow.isNotEmpty)
-                Text(style.arrow, style: TextStyle(color: style.textColor, fontSize: 14)),
-              if (style.arrow.isNotEmpty) SizedBox(width: dimens.space1),
-              Text(
-                // 방향은 화살표로 이미 표시하고 있어 등락액은 절댓값만 보여줍니다.
-                '${Formatters.comma(quote.change.abs())} (${Formatters.signedPercent(quote.changeRate)})',
-                style: TextStyle(
-                  color: style.textColor,
-                  fontSize: 14,
-                  fontWeight: AppTypography.medium,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }
