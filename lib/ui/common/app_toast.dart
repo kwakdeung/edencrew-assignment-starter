@@ -111,7 +111,7 @@ class _ToastWidgetState extends State<_ToastWidget> with SingleTickerProviderSta
                   Icon(
                     widget.isFavorite ? Icons.star : Icons.star_border,
                     size: dimens.iconMd,
-                    color: colors.favoriteActive,
+                    color: widget.isFavorite ? colors.favoriteActive : colors.textSecondary,
                   ),
                   SizedBox(width: dimens.space2),
                   Flexible(

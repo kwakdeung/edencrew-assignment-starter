@@ -7,6 +7,7 @@ import '../../domain/stock_summary.dart';
 import '../../state/stock_detail_controller.dart';
 import '../../state/watchlist_controller.dart';
 import '../../theme/theme.dart';
+import '../common/app_toast.dart';
 import '../common/price_style.dart';
 import 'widgets/candle_chart.dart';
 import 'widgets/daily_price_table.dart';
@@ -175,7 +176,14 @@ class _Header extends StatelessWidget {
           IconButton(
             onPressed: () async {
               if (meta == null) return;
+              final bool wasFavorite = isFavorite;
               await watchlist.toggleFavorite(meta!);
+              if (!context.mounted) return;
+              AppToast.show(
+                context,
+                isFavorite: !wasFavorite,
+                message: wasFavorite ? '관심이 해제되었습니다' : '관심이 등록되었습니다',
+              );
             },
             icon: Icon(
               isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
