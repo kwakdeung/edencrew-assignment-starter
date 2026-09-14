@@ -83,4 +83,10 @@ flutter run
 
 ## 과제 2 — Lucy Studio
 
-별도 진행 예정입니다. (`cloneProject/assets` 압축 파일로 첨부)
+진행하지 못했습니다. Lucy Studio 실행 시 `Cannot Load Projects — Server response is
+invalid. Please contact your administrator.` 팝업이 떠서 프로젝트 목록 자체를
+불러오지 못했습니다. 재설치·재로그인·네트워크 환경 변경(VPN·방화벽 해제)을
+시도했지만 동일하게 재현되어, 클라이언트가 아닌 서버 쪽 문제로 판단됩니다.
+
+`docs/ASSIGNMENT.md`의 요구사항(헤더 + 등록 목록 + 빈 상태 + 등록 다이얼로그)은
+확인했고, 이슈가 해결되는 대로 이어서 진행할 예정입니다.
